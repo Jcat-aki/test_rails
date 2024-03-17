@@ -1,0 +1,17 @@
+<ul class="navbar-nav ms-auto">
+  <% if Current.user %>
+  <li class="nav-item">
+    <%= link_to Current.user.user_name, class: 'nav-link '%>
+  </li>
+  <li class="nav-item">
+    <%= link_to "ログアウト", logout_path, method: :delete, class: 'nav-link' %>
+  </li>
+  <% else %>
+  <li class="nav-item">
+    <%= link_to "ログイン", login_path, class: 'nav-link' %>
+  </li>
+  <li class="nav-item">
+    <%= link_to "新規登録", signup_path, class: 'nav-link' %>
+  </li>
+  <% end  %>
+</ul>

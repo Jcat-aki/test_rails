@@ -1,0 +1,39 @@
+<h2 class="text-base font-semibold leading-7 text-indigo-600 text-center">
+タスク一覧
+</h2>
+<div class="mt-4 mb-4">
+  <table class="table">
+    <thead class="table-header">
+      <tr>
+        <th scope="col" class="table-5-cell">タスク名</th>
+        <th scope="col" class="table-5-cell">期日</th>
+        <th scope="col" class="table-5-cell">編集</th>
+        <th scope="col" class="table-5-cell"></th>
+        <th scope="col" class="table-5-cell"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tasks.each do |task| %>
+        <tr class="row">
+          <th scope="row" class="table-5-cell table-cell">
+            <%= task.title %>
+          </th>
+          <td class="table-5-cell">
+            <%= l(task.limit_date, format: :date) %>
+          </td>
+          <td class="table-5-cell">
+            <%= button_to "編集", edit_task_path(task), method: :get %>
+          </td>
+          <td class="table-5-cell">
+            <%= button_to "削除", task_path(task), method: :delete %>
+          </td>
+          <td class="table-5-cell">
+            <%= button_to "達成！！", finished_task_path(task), method: :patch, disabled: task.finished_at.present?, class: 'btn btn-blue' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= button_to "タスク追加", new_task_path, method: :get, class: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" %>
+<%= button_to "ログアウト", logout_path, method: :delete, class: "btn btn-sm btn-outline-danger"  %>
