@@ -10,13 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_04_154207) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_24_060555) do
   create_table "tasks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title", null: false, comment: "タスクのタイトル"
     t.date "limit_date", comment: "終了期日"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "finished_at", comment: "終了日時を格納する"
+  end
+
+  create_table "teams", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false, comment: "チーム名"
+    t.integer "category", default: 0, null: false, comment: "所属チームのカテゴリ"
+    t.string "country", null: false, comment: "国名"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

@@ -1,5 +1,16 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: tasks
+#
+#  id                              :bigint           not null, primary key
+#  finished_at(終了日時を格納する) :datetime
+#  limit_date(終了期日)            :date
+#  title(タスクのタイトル)         :string(255)      not null
+#  created_at                      :datetime         not null
+#  updated_at                      :datetime         not null
+#
 require 'rails_helper'
 
 RSpec.describe Task, type: :model do

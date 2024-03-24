@@ -100,6 +100,7 @@ GEM
     concurrent-ruby (1.2.3)
     connection_pool (2.4.1)
     crass (1.0.6)
+    csv (3.2.8)
     date (3.3.4)
     debug (1.9.1)
       irb (~> 1.10)
@@ -163,6 +164,10 @@ GEM
       racc (~> 1.4)
     nokogiri (1.16.0-x86_64-linux)
       racc (~> 1.4)
+    open-uri (0.4.1)
+      stringio
+      time
+      uri
     parallel (1.24.0)
     parser (3.3.0.5)
       ast (~> 2.4.1)
@@ -297,6 +302,8 @@ GEM
     tailwindcss-rails (2.3.0-x86_64-linux)
       railties (>= 6.0.0)
     thor (1.3.0)
+    time (0.3.0)
+      date
     timeout (0.4.1)
     turbo-rails (1.5.0)
       actionpack (>= 6.0.0)
@@ -305,6 +312,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
+    uri (0.13.0)
     web-console (4.2.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -332,11 +340,14 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap
   capybara
+  csv
   debug
   importmap-rails
   jbuilder
   jwt
   mysql2 (~> 0.5.5)
+  nokogiri
+  open-uri
   puma (>= 5.0)
   rails (~> 7.1.3)
   rspec-rails (~> 6.1.0)
