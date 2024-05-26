@@ -6,10 +6,10 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
+    user = User.new(user_params)
 
     respond_to do |format|
-      if @user.save
+      if user.save
         format.html { redirect_to root_path, notice: '新規登録完了' }
       else
         format.html { render :new }

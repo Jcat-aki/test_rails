@@ -10,6 +10,15 @@
 #  title(タスクのタイトル)         :string(255)      not null
 #  created_at                      :datetime         not null
 #  updated_at                      :datetime         not null
+#  team_id                         :bigint
+#
+# Indexes
+#
+#  index_tasks_on_team_id  (team_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (team_id => teams.id)
 #
 require 'rails_helper'
 

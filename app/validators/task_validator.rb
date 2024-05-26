@@ -4,7 +4,7 @@ class TaskValidator < ActiveModel::Validator
   def validate(record)
     # 空の場合は、チェックしない
     return if record.limit_date.blank?
-    return if record.limit_date_in_database <= record.limit_date
+    return if record.limit_date_in_database <= record.limit_date && record.limit_date >= Time.current
 
     record.errors.add(:base, '期日を戻すことはできません')
   end

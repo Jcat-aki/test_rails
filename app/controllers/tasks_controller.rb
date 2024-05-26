@@ -36,7 +36,10 @@ class TasksController < ApplicationController
 
   def destroy
     @task = Task.find(params[:id])
-    @task.destroy
+    @task.destroy!
+    redirect_to tasks_url
+  rescue StandardError => e
+    Rails.logger.error(e)
     redirect_to tasks_url
   end
 
@@ -53,6 +56,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :limit_date)
+    params.require(:task).permit(:title, :limit_date, :team_id)
   end
 end

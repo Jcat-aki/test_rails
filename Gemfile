@@ -77,6 +77,12 @@ group :development do
   gem 'rubocop-rails'
   gem 'rubocop-rake'
   gem 'rubocop-rspec'
+
+  gem 'erb_lint', require: false
+
+  gem 'rails-mermaid_erd'
+
+  gem 'pry-byebug'
 end
 
 group :test do

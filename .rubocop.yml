@@ -1,5 +1,8 @@
 inherit_from: .rubocop_todo.yml
 
+Rails:
+  Enabled: true
+
 Style/AsciiComments:
   Enabled: false
 
@@ -17,3 +20,6 @@ Metrics/BlockLength:
   Exclude:
     - 'config/environments/*'
     - 'lib/tasks/auto_annotate_models.rake'
+
+RSpec/ContextWording:
+  Enabled: false

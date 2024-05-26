@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_24_060555) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_14_143430) do
   create_table "tasks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title", null: false, comment: "タスクのタイトル"
     t.date "limit_date", comment: "終了期日"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "finished_at", comment: "終了日時を格納する"
+    t.bigint "team_id"
+    t.index ["team_id"], name: "index_tasks_on_team_id"
   end
 
   create_table "teams", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -36,4 +38,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_24_060555) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "tasks", "teams"
 end
