@@ -23,4 +23,10 @@ Rails.application.routes.draw do
   delete 'logout',  to: 'sessions#destroy'
   get 'users', to: 'users#new'
   post 'users', to: 'users#create'
+
+  namespace :admin do
+    namespace :documentations do
+      resource :erd, only: :show, format: 'html'
+    end
+  end
 end
