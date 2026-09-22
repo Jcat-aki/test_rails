@@ -13,7 +13,7 @@ ja:
     formats:
       default: "%Y/%m/%d %H:%M:%S"
       date: "%Y年%m月%d日"
-      long: "%Y年%m月%d日(%a) %H時%M分%S秒 %z"
+      long: "%Y年%m月%d日(%a) %H時%M分"
       short: "%y/%m/%d %H:%M"
     am: "午前"
     pm: "午後"

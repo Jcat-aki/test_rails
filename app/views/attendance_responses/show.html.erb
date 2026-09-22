@@ -2,14 +2,48 @@
   <div class="text-center">
     <p class="text-sm font-semibold text-indigo-600"><%= @attendance.event.team.name %></p>
     <h1 class="text-2xl font-bold tracking-tight text-gray-900"><%= @attendance.event.title %></h1>
-    <p class="mt-2 text-gray-600"><%= l(@attendance.event.starts_at, format: :long) %></p>
-    <% if @attendance.event.location.present? %>
-      <p class="text-gray-600">📍 <%= @attendance.event.location %></p>
-    <% end %>
     <p class="mt-4 font-semibold text-gray-900"><%= @attendance.team_member.name %> さんの回答</p>
   </div>
 
-  <div class="card mt-6 p-6">
+  <div class="card mt-4 p-4">
+    <dl class="grid grid-cols-1 gap-y-2 text-sm">
+      <div class="flex items-baseline justify-between gap-4">
+        <dt class="text-gray-500">開始</dt>
+        <dd class="text-right text-gray-900"><%= l(@attendance.event.starts_at, format: :long) %></dd>
+      </div>
+      <% if @attendance.event.ends_at.present? %>
+        <div class="flex items-baseline justify-between gap-4">
+          <dt class="text-gray-500">終了</dt>
+          <dd class="text-right text-gray-900"><%= l(@attendance.event.ends_at, format: :long) %></dd>
+        </div>
+      <% end %>
+      <% if @attendance.event.location.present? %>
+        <div class="flex items-baseline justify-between gap-4">
+          <dt class="text-gray-500">場所</dt>
+          <dd class="text-right text-gray-900">📍 <%= @attendance.event.location %></dd>
+        </div>
+      <% end %>
+      <% if @attendance.event.participation_fee.present? %>
+        <div class="flex items-baseline justify-between gap-4">
+          <dt class="text-gray-500">参加費</dt>
+          <dd class="text-right font-semibold text-gray-900"><%= number_to_currency(@attendance.event.participation_fee, unit: '¥', precision: 0) %></dd>
+        </div>
+      <% end %>
+      <% if @payment %>
+        <div class="flex items-baseline justify-between gap-4">
+          <dt class="text-gray-500">支払い状況</dt>
+          <dd class="text-right font-semibold <%= @payment.paid? ? 'text-green-700' : 'text-yellow-700' %>">
+            <%= @payment.paid? ? '支払済み' : '未払い' %>
+          </dd>
+        </div>
+      <% end %>
+    </dl>
+    <% if @attendance.event.note.present? %>
+      <p class="mt-3 whitespace-pre-wrap border-t border-gray-100 pt-3 text-sm text-gray-600"><%= @attendance.event.note %></p>
+    <% end %>
+  </div>
+
+  <div class="card mt-4 p-6">
     <% if @attendance.errors.any? %>
       <ul class="form-error-list">
         <% @attendance.errors.full_messages.each do |message| %>
