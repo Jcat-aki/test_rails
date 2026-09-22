@@ -10,14 +10,20 @@
 #  title(タスクのタイトル)         :string(255)      not null
 #  created_at                      :datetime         not null
 #  updated_at                      :datetime         not null
+#  assignee_team_member_id         :bigint
+#  event_id                        :bigint
 #  team_id                         :bigint
 #
 # Indexes
 #
-#  index_tasks_on_team_id  (team_id)
+#  index_tasks_on_assignee_team_member_id  (assignee_team_member_id)
+#  index_tasks_on_event_id                 (event_id)
+#  index_tasks_on_team_id                  (team_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (assignee_team_member_id => team_members.id)
+#  fk_rails_...  (event_id => events.id)
 #  fk_rails_...  (team_id => teams.id)
 #
 class Task < ApplicationRecord
@@ -30,4 +36,7 @@ class Task < ApplicationRecord
 
   # タスクに対してチームは一つしかアサインできないようにする
   belongs_to :team, optional: true
+  # イベント単位の担当タスク（ボール・審判等）として使う場合のみ設定
+  belongs_to :event, optional: true
+  belongs_to :assignee_team_member, class_name: 'TeamMember', optional: true, inverse_of: :assigned_tasks
 end

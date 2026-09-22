@@ -62,6 +62,29 @@
   </table>
 </div>
 
+<h2 class="mt-8 text-base font-semibold leading-7 text-indigo-600 text-center">担当タスク</h2>
+<div class="mt-4 mb-4">
+  <table class="table">
+    <thead class="table-header">
+      <tr>
+        <th scope="col" class="table-5-cell">タスク</th>
+        <th scope="col" class="table-5-cell">担当者</th>
+        <th scope="col" class="table-5-cell">状態</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @event.tasks.includes(:assignee_team_member).each do |task| %>
+        <tr class="row">
+          <th scope="row" class="table-5-cell table-cell"><%= task.title %></th>
+          <td class="table-5-cell"><%= task.assignee_team_member&.name || '未割当' %></td>
+          <td class="table-5-cell"><%= task.finished_at.present? ? '完了' : '未完了' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= button_to 'タスクを追加', new_task_path(task: { event_id: @event.id, team_id: @team.id }), method: :get, class: 'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' %>
+
 <div class="mt-10 text-center">
   <%= link_to 'イベント一覧へ戻る', team_events_path(@team), class: 'px-6 py-3 text-blue-100 no-underline bg-blue-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200' %>
 </div>
