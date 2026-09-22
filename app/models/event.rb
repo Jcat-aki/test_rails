@@ -27,6 +27,7 @@ class Event < ApplicationRecord
   belongs_to :team
 
   has_many :attendances, dependent: :destroy
+  has_many :tasks, dependent: :nullify
 
   validates :title, presence: true, length: { maximum: 200 }
   validates :starts_at, presence: true

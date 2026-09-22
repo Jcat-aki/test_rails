@@ -8,7 +8,7 @@ class TasksController < ApplicationController
   end
 
   def new
-    @task = Task.new
+    @task = Task.new(new_task_params)
   end
 
   def create
@@ -56,6 +56,13 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :limit_date, :team_id)
+    params.require(:task).permit(:title, :limit_date, :team_id, :event_id, :assignee_team_member_id)
+  end
+
+  # イベント詳細画面からの遷移時、event_id/team_idを初期値として使うための任意パラメータ
+  def new_task_params
+    return {} unless params[:task]
+
+    params.require(:task).permit(:event_id, :team_id)
   end
 end

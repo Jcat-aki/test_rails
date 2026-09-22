@@ -58,4 +58,15 @@ RSpec.describe TeamMember, type: :model do
       expect(member.reload).to be_inactive
     end
   end
+
+  describe '#assigned_tasks' do
+    it 'メンバーを削除すると担当タスクのassignee_team_member_idはnilになる' do
+      member = team.team_members.create!(name: '田中')
+      task = Task.create!(title: 'ボール準備', team:, assignee_team_member: member)
+
+      member.destroy!
+
+      expect(task.reload.assignee_team_member_id).to be_nil
+    end
+  end
 end

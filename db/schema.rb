@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_22_100300) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_22_100400) do
   create_table "attendances", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "event_id", null: false
     t.bigint "team_member_id", null: false
@@ -46,6 +46,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_100300) do
     t.datetime "updated_at", null: false
     t.datetime "finished_at", comment: "終了日時を格納する"
     t.bigint "team_id"
+    t.bigint "event_id"
+    t.bigint "assignee_team_member_id"
+    t.index ["assignee_team_member_id"], name: "index_tasks_on_assignee_team_member_id"
+    t.index ["event_id"], name: "index_tasks_on_event_id"
     t.index ["team_id"], name: "index_tasks_on_team_id"
   end
 
@@ -81,6 +85,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_100300) do
   add_foreign_key "attendances", "events"
   add_foreign_key "attendances", "team_members"
   add_foreign_key "events", "teams"
+  add_foreign_key "tasks", "events"
+  add_foreign_key "tasks", "team_members", column: "assignee_team_member_id"
   add_foreign_key "tasks", "teams"
   add_foreign_key "team_members", "teams"
   add_foreign_key "team_members", "users"
