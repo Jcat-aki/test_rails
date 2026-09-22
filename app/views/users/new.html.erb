@@ -1,21 +1,34 @@
-<div class="mx-auto max-w-2xl text-center">
-  <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-  新規ユーザ登録
-  </h1>
+<div class="mx-auto mt-10 max-w-sm">
+  <h1 class="page-title text-center">新規ユーザ登録</h1>
+
+  <div class="card mt-6 p-6">
+    <% if @user.errors.any? %>
+      <ul class="form-error-list">
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <%= form_with(model: @user) do |f| %>
+      <div class="grid grid-cols-1 gap-y-6">
+        <div>
+          <%= f.label :user_name, 'ユーザ名', class: 'field-label' %>
+          <%= f.text_field :user_name, class: 'field-input' %>
+        </div>
+        <%= render 'layouts/users/input_mail', { f: } %>
+        <%= render 'layouts/users/input_password', { f: } %>
+        <div>
+          <%= f.label :password_confirmation, 'パスワードの確認', class: 'field-label' %>
+          <%= f.password_field :password_confirmation, class: 'field-input' %>
+        </div>
+        <%= f.submit 'ユーザ登録', class: 'btn-primary w-full' %>
+      </div>
+    <% end %>
+  </div>
+
+  <p class="mt-6 text-center text-sm text-gray-500">
+    アカウントをお持ちの方は
+    <%= link_to 'ログイン', login_path, class: 'font-semibold text-indigo-600 hover:text-indigo-500' %>
+  </p>
 </div>
-<%= form_with(model: @user, class: 'max-w-sm mx-auto mt-6') do |f| %>
-  <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-  <div class="sm:col-span-2 form-group">
-    <%= f.label :user_name, 'ユーザ名', class: 'block text-sm font-semibold leading-6 text-gray-900' %>
-    <%= f.text_field :user_name, class: 'block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6' %>
-  </div>
-  <%= render 'layouts/users/input_mail', { f: } %>
-  <%= render 'layouts/users/input_password', { f: } %>
-  <div class="sm:col-span-2 form-group">
-    <%= f.label :password_confirmation, 'パスワードの確認', class: 'block text-sm font-semibold leading-6 text-gray-900' %>
-    <%= f.password_field :password_confirmation, class: 'block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6' %>
-  </div>
-  <div class="mt-10">
-    <%= f.submit 'ユーザ登録', class: 'block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600' %>
-  </div>
-<% end %>

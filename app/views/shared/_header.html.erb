@@ -1,17 +1,30 @@
-<ul class="navbar-nav ms-auto">
-  <% if Current.user %>
-  <li class="nav-item">
-    <%= link_to Current.user.user_name, class: 'nav-link ' %>
-  </li>
-  <li class="nav-item">
-    <%= link_to 'ログアウト', logout_path, method: :delete, class: 'nav-link' %>
-  </li>
-  <% else %>
-  <li class="nav-item">
-    <%= link_to 'ログイン', login_path, class: 'nav-link' %>
-  </li>
-  <li class="nav-item">
-    <%= link_to '新規登録', signup_path, class: 'nav-link' %>
-  </li>
+<header class="border-b border-gray-200 bg-white">
+  <nav class="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+    <div class="flex items-center gap-8">
+      <%= link_to '幹事アプリ', root_path, class: 'text-lg font-bold tracking-tight text-gray-900' %>
+      <% if logged_in? %>
+        <div class="hidden items-center gap-6 sm:flex">
+          <%= link_to 'タスク', tasks_path, class: 'text-sm font-medium text-gray-600 hover:text-gray-900' %>
+          <%= link_to 'チーム', teams_path, class: 'text-sm font-medium text-gray-600 hover:text-gray-900' %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <% if logged_in? %>
+        <span class="hidden text-sm text-gray-500 sm:inline"><%= current_user.user_name %> さん</span>
+        <%= button_to 'ログアウト', logout_path, method: :delete, class: 'btn-secondary btn-sm' %>
+      <% else %>
+        <%= link_to 'ログイン', login_path, class: 'text-sm font-medium text-gray-600 hover:text-gray-900' %>
+        <%= link_to '新規登録', signup_path, class: 'btn-primary btn-sm' %>
+      <% end %>
+    </div>
+  </nav>
+
+  <% if logged_in? %>
+    <div class="flex items-center gap-6 border-t border-gray-100 px-4 py-2 sm:hidden">
+      <%= link_to 'タスク', tasks_path, class: 'text-sm font-medium text-gray-600 hover:text-gray-900' %>
+      <%= link_to 'チーム', teams_path, class: 'text-sm font-medium text-gray-600 hover:text-gray-900' %>
+    </div>
   <% end %>
-</ul>
+</header>

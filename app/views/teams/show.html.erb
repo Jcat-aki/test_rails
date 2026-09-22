@@ -1,38 +1,47 @@
-<div class="mx-auto max-w-2xl text-center">
-  <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"><%= @team.name %></h1>
-  <%= button_to 'チーム編集', edit_team_path(@team), method: :get, class: 'mt-4' %>
+<div class="page-header">
+  <div>
+    <p class="text-sm text-gray-500">
+      <%= link_to 'チーム一覧', teams_path, class: 'hover:text-gray-700' %> /
+    </p>
+    <h1 class="page-title"><%= @team.name %></h1>
+  </div>
+  <div class="flex gap-2">
+    <%= link_to 'イベント一覧', team_events_path(@team), class: 'btn-secondary' %>
+    <%= link_to 'チーム編集', edit_team_path(@team), class: 'btn-secondary' %>
+  </div>
 </div>
 
-<h2 class="mt-8 text-base font-semibold leading-7 text-indigo-600 text-center">メンバー一覧</h2>
-<div class="mt-4 mb-4">
+<div class="mb-4 flex items-center justify-between">
+  <h2 class="section-title">メンバー一覧</h2>
+  <%= link_to 'メンバー追加', new_team_team_member_path(@team), class: 'btn-primary btn-sm' %>
+</div>
+<div class="card">
   <table class="table">
     <thead class="table-header">
       <tr>
         <th scope="col" class="table-5-cell">名前</th>
         <th scope="col" class="table-5-cell">メールアドレス</th>
         <th scope="col" class="table-5-cell">状態</th>
-        <th scope="col" class="table-5-cell">編集</th>
-        <th scope="col" class="table-5-cell"></th>
+        <th scope="col" class="table-5-cell text-right">操作</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="divide-y divide-gray-100">
       <% @team_members.each do |member| %>
         <tr class="row">
           <th scope="row" class="table-5-cell table-cell"><%= member.name %></th>
           <td class="table-5-cell"><%= member.email %></td>
           <td class="table-5-cell"><%= member.active? ? '有効' : '無効' %></td>
           <td class="table-5-cell">
-            <%= button_to '編集', edit_team_team_member_path(@team, member), method: :get %>
-          </td>
-          <td class="table-5-cell">
-            <%= button_to '無効化', deactivate_team_team_member_path(@team, member), method: :patch, disabled: member.inactive? %>
+            <div class="flex justify-end gap-2">
+              <%= button_to '編集', edit_team_team_member_path(@team, member), method: :get, class: 'btn-secondary btn-sm' %>
+              <%= button_to '無効化', deactivate_team_team_member_path(@team, member), method: :patch, disabled: member.inactive?, class: 'btn-danger btn-sm' %>
+            </div>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-</div>
-<%= button_to 'メンバー追加', new_team_team_member_path(@team), method: :get, class: 'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' %>
-<div class="mt-10 text-center">
-  <%= link_to 'チーム一覧へ戻る', teams_path, class: 'px-6 py-3 text-blue-100 no-underline bg-blue-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200' %>
+  <% if @team_members.empty? %>
+    <p class="px-6 py-8 text-center text-sm text-gray-500">メンバーはまだいません。</p>
+  <% end %>
 </div>

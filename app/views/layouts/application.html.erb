@@ -10,8 +10,11 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <main class="bg-orange-100 px-6 py-24 sm:py-32 lg:px-8">
+  <body class="bg-gray-50">
+    <%= render 'shared/header' %>
+
+    <main class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+      <%= render 'shared/message' %>
       <%= yield %>
     </main>
   </body>
