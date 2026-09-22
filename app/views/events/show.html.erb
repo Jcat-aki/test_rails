@@ -62,6 +62,48 @@
   </table>
 </div>
 
+<% if @event.participation_fee.present? %>
+  <h2 class="mt-8 text-base font-semibold leading-7 text-indigo-600 text-center">参加費支払い状況</h2>
+  <div class="mt-4 mb-4 grid grid-cols-2 gap-4 max-w-sm mx-auto text-center">
+    <div class="rounded-md bg-green-50 p-4">
+      <p class="text-2xl font-bold text-green-700"><%= @payment_summary[:paid] %></p>
+      <p class="text-sm text-green-700">支払済み</p>
+    </div>
+    <div class="rounded-md bg-yellow-50 p-4">
+      <p class="text-2xl font-bold text-yellow-700"><%= @payment_summary[:unpaid] %></p>
+      <p class="text-sm text-yellow-700">未払い</p>
+    </div>
+  </div>
+  <div class="mt-4 mb-4">
+    <table class="table">
+      <thead class="table-header">
+        <tr>
+          <th scope="col" class="table-5-cell">メンバー</th>
+          <th scope="col" class="table-5-cell">金額</th>
+          <th scope="col" class="table-5-cell">状態</th>
+          <th scope="col" class="table-5-cell"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @event.payments.includes(:team_member).order('team_members.name').each do |payment| %>
+          <tr class="row">
+            <th scope="row" class="table-5-cell table-cell"><%= payment.team_member.name %></th>
+            <td class="table-5-cell"><%= number_to_currency(payment.amount, unit: '¥', precision: 0) %></td>
+            <td class="table-5-cell"><%= payment.paid? ? '支払済み' : '未払い' %></td>
+            <td class="table-5-cell">
+              <%= button_to(payment.paid? ? '未払いに戻す' : '支払済みにする',
+                            team_event_payment_path(@team, @event, payment),
+                            method: :patch,
+                            params: { payment: { status: payment.paid? ? 'unpaid' : 'paid' } }) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <p class="text-sm text-gray-500 mt-2">参加（attending）に回答したメンバーのみ一覧に表示されます。</p>
+  </div>
+<% end %>
+
 <h2 class="mt-8 text-base font-semibold leading-7 text-indigo-600 text-center">担当タスク</h2>
 <div class="mt-4 mb-4">
   <table class="table">

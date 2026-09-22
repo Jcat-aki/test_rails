@@ -30,6 +30,7 @@ class TeamMember < ApplicationRecord
   has_many :attendances, dependent: :destroy
   has_many :assigned_tasks, class_name: 'Task', foreign_key: :assignee_team_member_id, dependent: :nullify,
                             inverse_of: :assignee_team_member
+  has_many :payments, dependent: :destroy
 
   enum :status, { active: 0, inactive: 1 }
 

@@ -28,6 +28,8 @@ class Event < ApplicationRecord
 
   has_many :attendances, dependent: :destroy
   has_many :tasks, dependent: :nullify
+  # 支払い記録は会計上の実績のため、削除機能を作る際も誤ってまとめて消せないようにしておく
+  has_many :payments, dependent: :restrict_with_error
 
   validates :title, presence: true, length: { maximum: 200 }
   validates :starts_at, presence: true
@@ -41,6 +43,10 @@ class Event < ApplicationRecord
 
   def unanswered_attendances
     attendances.unanswered.includes(:team_member)
+  end
+
+  def payment_summary
+    { paid: payments.paid.count, unpaid: payments.unpaid.count }
   end
 
   private
