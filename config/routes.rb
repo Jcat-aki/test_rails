@@ -16,8 +16,8 @@ Rails.application.routes.draw do
       patch 'finished'
     end
   end
-  get 'signup', to: 'signup#new'
-  post 'signup', to: 'signup#create'
+  get 'signup', to: 'users#new'
+  post 'signup', to: 'users#create'
   get    'login',   to: 'sessions#new'
   post   'login',   to: 'sessions#create'
   delete 'logout',  to: 'sessions#destroy'
