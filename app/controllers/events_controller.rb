@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class EventsController < ApplicationController
+  include TeamScoped
+
   before_action :logged_in_user
   before_action :set_team
   before_action :set_event, only: %i[show edit update]
@@ -40,11 +42,6 @@ class EventsController < ApplicationController
   end
 
   private
-
-  # 自分がownerのTeam配下以外は見つからない扱いにする（他人のTeamへのアクセス防止）
-  def set_team
-    @team = current_user.teams.find(params[:team_id])
-  end
 
   def set_event
     @event = @team.events.find(params[:id])
