@@ -9,10 +9,13 @@ class PaymentsController < ApplicationController
   before_action :set_payment
 
   def update
-    if payment_params[:status] == 'paid'
+    case payment_params[:status]
+    when 'paid'
       @payment.mark_as_paid!
-    else
+    when 'unpaid'
       @payment.mark_as_unpaid!
+    else
+      return redirect_to team_event_path(@team, @event), alert: '不正な支払い状況です'
     end
 
     redirect_to team_event_path(@team, @event), notice: '支払い状況を更新しました'

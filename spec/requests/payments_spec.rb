@@ -36,5 +36,20 @@ RSpec.describe 'Payments', type: :request do
       patch team_event_payment_path(team, event, payment), params: { payment: { status: 'paid' } }
       expect(response).to have_http_status(:not_found)
     end
+
+    context '不正なstatusを送った場合' do
+      before do
+        login_as(owner)
+        patch team_event_payment_path(team, event, payment), params: { payment: { status: 'garbage' } }
+      end
+
+      it '拒否されリダイレクトされる' do
+        expect(response).to redirect_to(team_event_path(team, event))
+      end
+
+      it '支払い状況は変わらない' do
+        expect(payment.reload).to be_unpaid
+      end
+    end
   end
 end

@@ -69,4 +69,26 @@ RSpec.describe Event, type: :model do
       expect(event.attendance_summary).to eq(unanswered: 0, attending: 1, absent: 1, undecided: 0)
     end
   end
+
+  describe '#payments' do
+    let!(:member) { team.team_members.create!(name: '田中') }
+    let(:event) { team.events.create!(title: '練習試合', starts_at: Time.zone.now) }
+
+    context 'Paymentが1件でもある場合（会計記録を誤って消さないため）' do
+      before { event.payments.create!(team_member: member, amount: 1500) }
+
+      it 'Eventを削除できない' do
+        expect(event.destroy).to be false
+      end
+
+      it 'エラーが追加される' do
+        event.destroy
+        expect(event.errors[:base]).to be_present
+      end
+    end
+
+    it 'Paymentが無ければEventを削除できる' do
+      expect(event.destroy).to be_truthy
+    end
+  end
 end

@@ -28,7 +28,8 @@ class Event < ApplicationRecord
 
   has_many :attendances, dependent: :destroy
   has_many :tasks, dependent: :nullify
-  has_many :payments, dependent: :destroy
+  # 支払い記録は会計上の実績のため、削除機能を作る際も誤ってまとめて消せないようにしておく
+  has_many :payments, dependent: :restrict_with_error
 
   validates :title, presence: true, length: { maximum: 200 }
   validates :starts_at, presence: true
