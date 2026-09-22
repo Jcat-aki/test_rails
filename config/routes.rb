@@ -22,7 +22,12 @@ Rails.application.routes.draw do
         patch 'deactivate'
       end
     end
+    resources :events, only: %i[index show new create edit update]
   end
+
+  get   'attendance_responses/:public_token', to: 'attendance_responses#show', as: :attendance_response
+  patch 'attendance_responses/:public_token', to: 'attendance_responses#update'
+
   get 'signup', to: 'users#new'
   post 'signup', to: 'users#create'
   get    'login',   to: 'sessions#new'

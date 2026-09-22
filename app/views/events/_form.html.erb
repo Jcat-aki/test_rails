@@ -1,0 +1,36 @@
+<ul>
+  <% event.errors.full_messages.each do |message| %>
+  <li><%= message %></li>
+  <% end %>
+</ul>
+<%= form_for([team, event], html: { class: 'max-w-sm mx-auto mt-6' }) do |f| %>
+  <div class="grid grid-cols-1 gap-x-8 gap-y-6">
+    <div>
+      <%= f.label :title, 'イベント名', class: 'block text-sm font-semibold leading-6 text-gray-900' %>
+      <%= f.text_field :title, class: 'block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6', required: true %>
+    </div>
+    <div>
+      <%= f.label :starts_at, '開始日時', class: 'block text-sm font-semibold leading-6 text-gray-900' %>
+      <%= f.datetime_field :starts_at, class: 'block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6', required: true %>
+    </div>
+    <div>
+      <%= f.label :ends_at, '終了日時（任意）', class: 'block text-sm font-semibold leading-6 text-gray-900' %>
+      <%= f.datetime_field :ends_at, class: 'block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6' %>
+    </div>
+    <div>
+      <%= f.label :location, '場所（任意）', class: 'block text-sm font-semibold leading-6 text-gray-900' %>
+      <%= f.text_field :location, class: 'block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6' %>
+    </div>
+    <div>
+      <%= f.label :participation_fee, '参加費（円・任意）', class: 'block text-sm font-semibold leading-6 text-gray-900' %>
+      <%= f.number_field :participation_fee, class: 'block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6', min: 0 %>
+    </div>
+    <div>
+      <%= f.label :note, 'メモ（任意）', class: 'block text-sm font-semibold leading-6 text-gray-900' %>
+      <%= f.text_area :note, class: 'block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6' %>
+    </div>
+    <div class="mt-10">
+      <%= f.submit submit_label, class: 'block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600' %>
+    </div>
+  </div>
+<% end %>
