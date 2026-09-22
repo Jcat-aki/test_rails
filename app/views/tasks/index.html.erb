@@ -1,6 +1,5 @@
-<div class="lg:px-8">
-  <div class="mx-auto max-w-2xl text-center">
-    <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">TODOアプリ</h1>
-  </div>
-  <%= render 'tasks/list' %>
+<div class="page-header">
+  <h1 class="page-title">タスク一覧</h1>
+  <%= link_to 'タスク追加', new_task_path, class: 'btn-primary' %>
 </div>
+<%= render 'tasks/list' %>

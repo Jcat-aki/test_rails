@@ -2,49 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-
-@layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
-  }
-}
-
-*/
-
 .btn {
-  @apply font-bold py-2 px-4 rounded;
+  @apply inline-flex items-center justify-center gap-1.5 rounded-md px-3.5 py-2 text-sm font-semibold shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-40
 }
-.btn-blue {
-  @apply bg-blue-500 text-white;
+
+.btn-primary {
+  @apply btn bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600
 }
-.btn-blue:hover {
-  @apply bg-blue-700;
+
+.btn-secondary {
+  @apply btn bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-indigo-600
 }
-.btn-blue:disabled {
-  @apply opacity-50 cursor-not-allowed
+
+.btn-danger {
+  @apply btn bg-white text-red-600 ring-1 ring-inset ring-red-200 hover:bg-red-50 focus-visible:outline-red-600
 }
-.button:hover {
-  @apply bg-blue-200;
+
+.btn-sm {
+  @apply px-2.5 py-1.5 text-xs
+}
+
+.card {
+  @apply overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm
+}
+
+.page-header {
+  @apply mb-6 flex flex-wrap items-center justify-between gap-4
+}
+
+.page-title {
+  @apply text-xl font-bold tracking-tight text-gray-900 sm:text-2xl
+}
+
+.section-title {
+  @apply text-base font-semibold leading-7 text-indigo-600
+}
+
+.form-error-list {
+  @apply mb-6 rounded-md bg-red-50 p-4 text-sm text-red-700 ring-1 ring-inset ring-red-200
+}
+
+.field-label {
+  @apply block text-sm font-semibold leading-6 text-gray-900
+}
+
+.field-input {
+  @apply mt-1 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6
 }
 
 .row {
-  @apply bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600
+  @apply bg-white transition-colors hover:bg-gray-50
 }
 
 .table {
-  @apply w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400
+  @apply w-full text-left text-sm text-gray-600
 }
 
 .table-cell {
-  @apply font-medium text-gray-900 whitespace-nowrap dark:text-white
+  @apply font-medium text-gray-900
 }
 
 .table-5-cell {
-  @apply px-6 py-5 
+  @apply whitespace-nowrap px-6 py-4
 }
 
 .table-header {
-  @apply text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400
+  @apply bg-gray-50 text-xs font-semibold uppercase tracking-wide text-gray-500
 }
 
+.flash-notice {
+  @apply mb-6 rounded-md bg-green-50 p-4 text-sm font-medium text-green-800 ring-1 ring-inset ring-green-200
+}
+
+.flash-alert {
+  @apply mb-6 rounded-md bg-red-50 p-4 text-sm font-medium text-red-800 ring-1 ring-inset ring-red-200
+}

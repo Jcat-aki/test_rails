@@ -1,45 +1,51 @@
-<div class="mx-auto max-w-2xl text-center">
-  <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"><%= @event.title %></h1>
-  <p class="mt-2 text-gray-600"><%= l(@event.starts_at, format: :long) %></p>
-  <% if @event.location.present? %>
-    <p class="text-gray-600">📍 <%= @event.location %></p>
-  <% end %>
-  <% if @event.participation_fee.present? %>
-    <p class="text-gray-600">参加費 <%= number_to_currency(@event.participation_fee, unit: '¥', precision: 0) %></p>
-  <% end %>
-  <%= button_to 'イベント編集', edit_team_event_path(@team, @event), method: :get, class: 'mt-4' %>
+<div class="page-header">
+  <div>
+    <p class="text-sm text-gray-500">
+      <%= link_to @team.name, team_path(@team), class: 'hover:text-gray-700' %> /
+      <%= link_to 'イベント一覧', team_events_path(@team), class: 'hover:text-gray-700' %> /
+    </p>
+    <h1 class="page-title"><%= @event.title %></h1>
+    <p class="mt-1 text-sm text-gray-600"><%= l(@event.starts_at, format: :long) %></p>
+    <% if @event.location.present? %>
+      <p class="text-sm text-gray-600">📍 <%= @event.location %></p>
+    <% end %>
+    <% if @event.participation_fee.present? %>
+      <p class="text-sm text-gray-600">参加費 <%= number_to_currency(@event.participation_fee, unit: '¥', precision: 0) %></p>
+    <% end %>
+  </div>
+  <%= link_to 'イベント編集', edit_team_event_path(@team, @event), class: 'btn-secondary' %>
 </div>
 
-<h2 class="mt-8 text-base font-semibold leading-7 text-indigo-600 text-center">出欠サマリー</h2>
-<div class="mt-4 mb-4 grid grid-cols-2 gap-4 sm:grid-cols-4 max-w-2xl mx-auto text-center">
-  <div class="rounded-md bg-green-50 p-4">
+<h2 class="section-title mb-3">出欠サマリー</h2>
+<div class="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+  <div class="card p-4 text-center">
     <p class="text-2xl font-bold text-green-700"><%= @summary[:attending] %></p>
-    <p class="text-sm text-green-700">参加</p>
+    <p class="text-sm text-gray-500">参加</p>
   </div>
-  <div class="rounded-md bg-red-50 p-4">
+  <div class="card p-4 text-center">
     <p class="text-2xl font-bold text-red-700"><%= @summary[:absent] %></p>
-    <p class="text-sm text-red-700">不参加</p>
+    <p class="text-sm text-gray-500">不参加</p>
   </div>
-  <div class="rounded-md bg-yellow-50 p-4">
+  <div class="card p-4 text-center">
     <p class="text-2xl font-bold text-yellow-700"><%= @summary[:undecided] %></p>
-    <p class="text-sm text-yellow-700">未定</p>
+    <p class="text-sm text-gray-500">未定</p>
   </div>
-  <div class="rounded-md bg-gray-100 p-4">
+  <div class="card p-4 text-center">
     <p class="text-2xl font-bold text-gray-700"><%= @summary[:unanswered] %></p>
-    <p class="text-sm text-gray-700">未回答</p>
+    <p class="text-sm text-gray-500">未回答</p>
   </div>
 </div>
 
 <% if @unanswered_attendances.any? %>
-  <h2 class="mt-8 text-base font-semibold leading-7 text-indigo-600 text-center">未回答者へのリマインド</h2>
-  <div class="max-w-2xl mx-auto mt-4">
-    <p class="text-sm text-gray-600 mb-2">このテキストをコピーしてLINEに貼り付けてください（メンバーごとに専用URLです）。</p>
-    <textarea readonly rows="<%= @unanswered_attendances.size + 1 %>" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm"><%= event_reminder_text(@event, @unanswered_attendances) %></textarea>
+  <h2 class="section-title mb-3">未回答者へのリマインド</h2>
+  <div class="card mb-8 p-4">
+    <p class="mb-2 text-sm text-gray-600">このテキストをコピーしてLINEに貼り付けてください（メンバーごとに専用URLです）。</p>
+    <textarea readonly rows="<%= @unanswered_attendances.size + 1 %>" class="field-input"><%= event_reminder_text(@event, @unanswered_attendances) %></textarea>
   </div>
 <% end %>
 
-<h2 class="mt-8 text-base font-semibold leading-7 text-indigo-600 text-center">出欠一覧</h2>
-<div class="mt-4 mb-4">
+<h2 class="section-title mb-3">出欠一覧</h2>
+<div class="card mb-8">
   <table class="table">
     <thead class="table-header">
       <tr>
@@ -48,7 +54,7 @@
         <th scope="col" class="table-5-cell">コメント</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="divide-y divide-gray-100">
       <% @event.attendances.includes(:team_member).order('team_members.name').each do |attendance| %>
         <tr class="row">
           <th scope="row" class="table-5-cell table-cell"><%= attendance.team_member.name %></th>
@@ -63,49 +69,53 @@
 </div>
 
 <% if @event.participation_fee.present? %>
-  <h2 class="mt-8 text-base font-semibold leading-7 text-indigo-600 text-center">参加費支払い状況</h2>
-  <div class="mt-4 mb-4 grid grid-cols-2 gap-4 max-w-sm mx-auto text-center">
-    <div class="rounded-md bg-green-50 p-4">
+  <h2 class="section-title mb-3">参加費支払い状況</h2>
+  <div class="mb-4 grid max-w-sm grid-cols-2 gap-4">
+    <div class="card p-4 text-center">
       <p class="text-2xl font-bold text-green-700"><%= @payment_summary[:paid] %></p>
-      <p class="text-sm text-green-700">支払済み</p>
+      <p class="text-sm text-gray-500">支払済み</p>
     </div>
-    <div class="rounded-md bg-yellow-50 p-4">
+    <div class="card p-4 text-center">
       <p class="text-2xl font-bold text-yellow-700"><%= @payment_summary[:unpaid] %></p>
-      <p class="text-sm text-yellow-700">未払い</p>
+      <p class="text-sm text-gray-500">未払い</p>
     </div>
   </div>
-  <div class="mt-4 mb-4">
+  <div class="card mb-2">
     <table class="table">
       <thead class="table-header">
         <tr>
           <th scope="col" class="table-5-cell">メンバー</th>
           <th scope="col" class="table-5-cell">金額</th>
           <th scope="col" class="table-5-cell">状態</th>
-          <th scope="col" class="table-5-cell"></th>
+          <th scope="col" class="table-5-cell text-right">操作</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="divide-y divide-gray-100">
         <% @event.payments.includes(:team_member).order('team_members.name').each do |payment| %>
           <tr class="row">
             <th scope="row" class="table-5-cell table-cell"><%= payment.team_member.name %></th>
             <td class="table-5-cell"><%= number_to_currency(payment.amount, unit: '¥', precision: 0) %></td>
             <td class="table-5-cell"><%= payment.paid? ? '支払済み' : '未払い' %></td>
-            <td class="table-5-cell">
+            <td class="table-5-cell text-right">
               <%= button_to(payment.paid? ? '未払いに戻す' : '支払済みにする',
                             team_event_payment_path(@team, @event, payment),
                             method: :patch,
-                            params: { payment: { status: payment.paid? ? 'unpaid' : 'paid' } }) %>
+                            params: { payment: { status: payment.paid? ? 'unpaid' : 'paid' } },
+                            class: 'btn-secondary btn-sm') %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
-    <p class="text-sm text-gray-500 mt-2">参加（attending）に回答したメンバーのみ一覧に表示されます。</p>
   </div>
+  <p class="mb-8 text-sm text-gray-500">参加（attending）に回答したメンバーのみ一覧に表示されます。</p>
 <% end %>
 
-<h2 class="mt-8 text-base font-semibold leading-7 text-indigo-600 text-center">担当タスク</h2>
-<div class="mt-4 mb-4">
+<div class="mb-4 flex items-center justify-between">
+  <h2 class="section-title">担当タスク</h2>
+  <%= link_to 'タスクを追加', new_task_path(task: { event_id: @event.id, team_id: @team.id }), class: 'btn-primary btn-sm' %>
+</div>
+<div class="card">
   <table class="table">
     <thead class="table-header">
       <tr>
@@ -114,7 +124,7 @@
         <th scope="col" class="table-5-cell">状態</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="divide-y divide-gray-100">
       <% @event.tasks.includes(:assignee_team_member).each do |task| %>
         <tr class="row">
           <th scope="row" class="table-5-cell table-cell"><%= task.title %></th>
@@ -124,9 +134,4 @@
       <% end %>
     </tbody>
   </table>
-</div>
-<%= button_to 'タスクを追加', new_task_path(task: { event_id: @event.id, team_id: @team.id }), method: :get, class: 'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' %>
-
-<div class="mt-10 text-center">
-  <%= link_to 'イベント一覧へ戻る', team_events_path(@team), class: 'px-6 py-3 text-blue-100 no-underline bg-blue-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200' %>
 </div>
