@@ -27,6 +27,8 @@ class TeamMember < ApplicationRecord
   belongs_to :team
   belongs_to :user, optional: true
 
+  has_many :attendances, dependent: :destroy
+
   enum :status, { active: 0, inactive: 1 }
 
   validates :name, presence: true, length: { maximum: 100 }

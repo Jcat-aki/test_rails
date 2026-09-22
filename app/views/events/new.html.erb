@@ -1,0 +1,7 @@
+<div class="mx-auto max-w-2xl text-center">
+  <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"><%= @team.name %> - 新規イベント</h1>
+</div>
+<%= render 'form', team: @team, event: @event, submit_label: 'イベント作成' %>
+<div class="mt-10 text-center">
+  <%= link_to '戻る', team_events_path(@team), class: 'px-6 py-3 text-blue-100 no-underline bg-blue-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200' %>
+</div>

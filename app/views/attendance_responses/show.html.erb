@@ -1,0 +1,32 @@
+<div class="mx-auto max-w-sm text-center">
+  <p class="text-sm text-indigo-600 font-semibold"><%= @attendance.event.team.name %></p>
+  <h1 class="text-2xl font-bold tracking-tight text-gray-900"><%= @attendance.event.title %></h1>
+  <p class="mt-2 text-gray-600"><%= l(@attendance.event.starts_at, format: :long) %></p>
+  <% if @attendance.event.location.present? %>
+    <p class="text-gray-600">📍 <%= @attendance.event.location %></p>
+  <% end %>
+  <p class="mt-4 text-gray-900 font-semibold"><%= @attendance.team_member.name %> さんの回答</p>
+</div>
+
+<ul>
+  <% @attendance.errors.full_messages.each do |message| %>
+  <li><%= message %></li>
+  <% end %>
+</ul>
+
+<%= form_with model: @attendance, url: attendance_response_path(@attendance.public_token), method: :patch, html: { class: 'max-w-sm mx-auto mt-6' } do |f| %>
+  <div class="grid grid-cols-1 gap-y-6">
+    <div class="flex justify-center gap-4">
+      <label class="flex items-center gap-1"><%= f.radio_button :status, 'attending' %> 参加</label>
+      <label class="flex items-center gap-1"><%= f.radio_button :status, 'absent' %> 不参加</label>
+      <label class="flex items-center gap-1"><%= f.radio_button :status, 'undecided' %> 未定</label>
+    </div>
+    <div>
+      <%= f.label :comment, 'コメント（任意）', class: 'block text-sm font-semibold leading-6 text-gray-900' %>
+      <%= f.text_area :comment, class: 'block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm' %>
+    </div>
+    <div>
+      <%= f.submit '回答する', class: 'block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500' %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,67 @@
+<div class="mx-auto max-w-2xl text-center">
+  <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"><%= @event.title %></h1>
+  <p class="mt-2 text-gray-600"><%= l(@event.starts_at, format: :long) %></p>
+  <% if @event.location.present? %>
+    <p class="text-gray-600">📍 <%= @event.location %></p>
+  <% end %>
+  <% if @event.participation_fee.present? %>
+    <p class="text-gray-600">参加費 <%= number_to_currency(@event.participation_fee, unit: '¥', precision: 0) %></p>
+  <% end %>
+  <%= button_to 'イベント編集', edit_team_event_path(@team, @event), method: :get, class: 'mt-4' %>
+</div>
+
+<h2 class="mt-8 text-base font-semibold leading-7 text-indigo-600 text-center">出欠サマリー</h2>
+<div class="mt-4 mb-4 grid grid-cols-2 gap-4 sm:grid-cols-4 max-w-2xl mx-auto text-center">
+  <div class="rounded-md bg-green-50 p-4">
+    <p class="text-2xl font-bold text-green-700"><%= @summary[:attending] %></p>
+    <p class="text-sm text-green-700">参加</p>
+  </div>
+  <div class="rounded-md bg-red-50 p-4">
+    <p class="text-2xl font-bold text-red-700"><%= @summary[:absent] %></p>
+    <p class="text-sm text-red-700">不参加</p>
+  </div>
+  <div class="rounded-md bg-yellow-50 p-4">
+    <p class="text-2xl font-bold text-yellow-700"><%= @summary[:undecided] %></p>
+    <p class="text-sm text-yellow-700">未定</p>
+  </div>
+  <div class="rounded-md bg-gray-100 p-4">
+    <p class="text-2xl font-bold text-gray-700"><%= @summary[:unanswered] %></p>
+    <p class="text-sm text-gray-700">未回答</p>
+  </div>
+</div>
+
+<% if @unanswered_attendances.any? %>
+  <h2 class="mt-8 text-base font-semibold leading-7 text-indigo-600 text-center">未回答者へのリマインド</h2>
+  <div class="max-w-2xl mx-auto mt-4">
+    <p class="text-sm text-gray-600 mb-2">このテキストをコピーしてLINEに貼り付けてください（メンバーごとに専用URLです）。</p>
+    <textarea readonly rows="<%= @unanswered_attendances.size + 1 %>" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm"><%= event_reminder_text(@event, @unanswered_attendances) %></textarea>
+  </div>
+<% end %>
+
+<h2 class="mt-8 text-base font-semibold leading-7 text-indigo-600 text-center">出欠一覧</h2>
+<div class="mt-4 mb-4">
+  <table class="table">
+    <thead class="table-header">
+      <tr>
+        <th scope="col" class="table-5-cell">メンバー</th>
+        <th scope="col" class="table-5-cell">状態</th>
+        <th scope="col" class="table-5-cell">コメント</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @event.attendances.includes(:team_member).order('team_members.name').each do |attendance| %>
+        <tr class="row">
+          <th scope="row" class="table-5-cell table-cell"><%= attendance.team_member.name %></th>
+          <td class="table-5-cell">
+            <%= { 'attending' => '参加', 'absent' => '不参加', 'undecided' => '未定', 'unanswered' => '未回答' }[attendance.status] %>
+          </td>
+          <td class="table-5-cell"><%= attendance.comment %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="mt-10 text-center">
+  <%= link_to 'イベント一覧へ戻る', team_events_path(@team), class: 'px-6 py-3 text-blue-100 no-underline bg-blue-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200' %>
+</div>
