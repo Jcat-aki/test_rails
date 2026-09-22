@@ -72,4 +72,34 @@ RSpec.describe Attendance, type: :model do
       expect(attendance.responded_at).to be_present
     end
   end
+
+  describe '参加費のあるイベントで「参加」に回答したとき' do
+    let(:event) { team.events.create!(title: '練習試合', starts_at: Time.zone.now, participation_fee: 1500) }
+    let(:attendance) { event.attendances.find_by(team_member: member) }
+
+    it 'Paymentが自動作成される' do
+      expect { attendance.respond!(status: :attending) }.to change(Payment, :count).by(1)
+    end
+
+    it 'Paymentの金額はイベントのparticipation_feeになる' do
+      attendance.respond!(status: :attending)
+      expect(Payment.find_by(event:, team_member: member).amount).to eq(1500)
+    end
+
+    it '不参加に回答してもPaymentは作成されない' do
+      expect { attendance.respond!(status: :absent) }.not_to change(Payment, :count)
+    end
+
+    it '既にPaymentがある状態で再度参加に回答しても重複作成されない' do
+      attendance.respond!(status: :attending)
+      expect { attendance.respond!(status: :attending, comment: '追記') }.not_to change(Payment, :count)
+    end
+  end
+
+  describe '参加費が無いイベントで「参加」に回答したとき' do
+    it 'Paymentは作成されない' do
+      attendance = event.attendances.find_by(team_member: member)
+      expect { attendance.respond!(status: :attending) }.not_to change(Payment, :count)
+    end
+  end
 end

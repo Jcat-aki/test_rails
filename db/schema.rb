@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_22_100400) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_22_100500) do
   create_table "attendances", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "event_id", null: false
     t.bigint "team_member_id", null: false
@@ -37,6 +37,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_100400) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_events_on_team_id"
+  end
+
+  create_table "payments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "team_member_id", null: false
+    t.integer "amount", null: false, comment: "参加費（円）"
+    t.integer "status", default: 0, null: false, comment: "0: unpaid, 1: paid"
+    t.datetime "paid_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id", "team_member_id"], name: "index_payments_on_event_id_and_team_member_id", unique: true
+    t.index ["event_id"], name: "index_payments_on_event_id"
+    t.index ["team_member_id"], name: "index_payments_on_team_member_id"
   end
 
   create_table "tasks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -85,6 +98,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_100400) do
   add_foreign_key "attendances", "events"
   add_foreign_key "attendances", "team_members"
   add_foreign_key "events", "teams"
+  add_foreign_key "payments", "events"
+  add_foreign_key "payments", "team_members"
   add_foreign_key "tasks", "events"
   add_foreign_key "tasks", "team_members", column: "assignee_team_member_id"
   add_foreign_key "tasks", "teams"

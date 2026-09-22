@@ -36,6 +36,7 @@ class Attendance < ApplicationRecord
   validates :public_token, presence: true, uniqueness: true
 
   before_validation :generate_public_token, on: :create
+  after_save :create_payment_if_attending
 
   # 公開URL経由で許可する更新は status / comment のみ
   def respond!(status:, comment: nil)
@@ -43,6 +44,17 @@ class Attendance < ApplicationRecord
   end
 
   private
+
+  # 「参加」に回答し、かつイベントに参加費が設定されている場合のみPaymentを作る
+  # （不参加/未定に変わっても、一度作られたPaymentは幹事の記録として残す）
+  def create_payment_if_attending
+    return unless saved_change_to_status? && attending?
+    return if event.participation_fee.blank?
+
+    Payment.find_or_create_by!(event:, team_member:) do |payment|
+      payment.amount = event.participation_fee
+    end
+  end
 
   def generate_public_token
     self.public_token ||= loop do

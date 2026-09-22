@@ -12,6 +12,7 @@ class EventsController < ApplicationController
   def show
     @summary = @event.attendance_summary
     @unanswered_attendances = @event.unanswered_attendances
+    @payment_summary = @event.payment_summary
   end
 
   def new

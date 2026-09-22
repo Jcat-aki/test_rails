@@ -28,6 +28,7 @@ class Event < ApplicationRecord
 
   has_many :attendances, dependent: :destroy
   has_many :tasks, dependent: :nullify
+  has_many :payments, dependent: :destroy
 
   validates :title, presence: true, length: { maximum: 200 }
   validates :starts_at, presence: true
@@ -41,6 +42,10 @@ class Event < ApplicationRecord
 
   def unanswered_attendances
     attendances.unanswered.includes(:team_member)
+  end
+
+  def payment_summary
+    { paid: payments.paid.count, unpaid: payments.unpaid.count }
   end
 
   private
