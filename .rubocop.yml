@@ -19,6 +19,7 @@ require:
 Metrics/BlockLength:
   Exclude:
     - 'config/environments/*'
+    - 'config/routes.rb'
     - 'lib/tasks/auto_annotate_models.rake'
     - 'spec/**/*'
 

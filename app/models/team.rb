@@ -4,14 +4,24 @@
 #
 # Table name: teams
 #
-#  id                             :bigint           not null, primary key
-#  category(所属チームのカテゴリ) :integer          default(0), not null
-#  country(国名)                  :string(255)      not null
-#  name(チーム名)                 :string(255)      not null
-#  created_at                     :datetime         not null
-#  updated_at                     :datetime         not null
+#  id                               :bigint           not null, primary key
+#  name(チーム名)                   :string(255)      not null
+#  created_at                       :datetime         not null
+#  updated_at                       :datetime         not null
+#  owner_id(チーム作成者(users.id)) :bigint           not null
+#
+# Indexes
+#
+#  index_teams_on_owner_id  (owner_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (owner_id => users.id)
 #
 class Team < ApplicationRecord
-  # 海外など含めると色々と面倒なので、1~3部と、アマチュア一部という日本の分け方を採用してます（正しいかは不明）
-  enum :category, { pro_first: 0, pro_second: 1, pro_thrid: 2, ama_first: 10 }
+  belongs_to :owner, class_name: 'User', inverse_of: :teams
+
+  has_many :team_members, dependent: :destroy
+
+  validates :name, presence: true, length: { maximum: 100 }
 end
