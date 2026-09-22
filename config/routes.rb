@@ -16,6 +16,13 @@ Rails.application.routes.draw do
       patch 'finished'
     end
   end
+  resources :teams, only: %i[index show new create edit update] do
+    resources :team_members, only: %i[new create edit update] do
+      member do
+        patch 'deactivate'
+      end
+    end
+  end
   get 'signup', to: 'users#new'
   post 'signup', to: 'users#create'
   get    'login',   to: 'sessions#new'
