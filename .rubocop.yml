@@ -20,6 +20,7 @@ Metrics/BlockLength:
   Exclude:
     - 'config/environments/*'
     - 'lib/tasks/auto_annotate_models.rake'
+    - 'spec/**/*'
 
 RSpec/ContextWording:
   Enabled: false
