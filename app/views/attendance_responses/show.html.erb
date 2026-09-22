@@ -2,7 +2,9 @@
   <div class="text-center">
     <p class="text-sm font-semibold text-indigo-600"><%= @attendance.event.team.name %></p>
     <h1 class="text-2xl font-bold tracking-tight text-gray-900"><%= @attendance.event.title %></h1>
-    <p class="mt-4 font-semibold text-gray-900"><%= @attendance.team_member.name %> さんの回答</p>
+    <p class="mt-4 font-semibold text-gray-900">
+      <%= @attendance.team_member.name %> さん<%= @attendance.unanswered? ? '、出欠のご回答をお願いします' : 'の回答' %>
+    </p>
   </div>
 
   <div class="card mt-4 p-4">
