@@ -29,5 +29,5 @@ class Task < ApplicationRecord
   validates_with ::TaskValidator, fields: [:limit_date], if: :persisted?
 
   # タスクに対してチームは一つしかアサインできないようにする
-  has_one :team, dependent: :nullify
+  belongs_to :team, optional: true
 end
