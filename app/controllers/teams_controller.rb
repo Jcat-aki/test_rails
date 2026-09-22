@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class TeamsController < ApplicationController
+  include TeamScoped
+
   before_action :logged_in_user
   before_action :set_team, only: %i[show edit update]
 
@@ -37,11 +39,6 @@ class TeamsController < ApplicationController
   end
 
   private
-
-  # 自分がownerのTeam以外は見つからない扱いにする（他人のTeamへのアクセス防止）
-  def set_team
-    @team = current_user.teams.find(params[:id])
-  end
 
   def team_params
     params.require(:team).permit(:name)
